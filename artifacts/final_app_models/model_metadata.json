@@ -1,0 +1,39 @@
+{
+  "targets": {
+    "Conversion/%": {
+      "model_type": "xgboost",
+      "model_file": "conversion_xgboost.json",
+      "params": {
+        "objective": "reg:squarederror",
+        "random_state": 143,
+        "n_jobs": 1,
+        "n_estimators": 3534,
+        "learning_rate": 0.07172949796641975,
+        "max_depth": 11,
+        "min_child_weight": 6.89058705892471,
+        "subsample": 0.819751366339534,
+        "colsample_bytree": 0.970124967676284,
+        "gamma": 0.07079284535724314,
+        "reg_alpha": 0.00017047532437726288,
+        "reg_lambda": 0.01192938627454472,
+        "max_delta_step": 4.366304310278702
+      },
+      "training_rows": 1255
+    },
+    "CH3OH Selectivity/%": {
+      "model_type": "catboost",
+      "model_file": "ch3oh_catboost.cbm",
+      "params": {
+        "iterations": 1114,
+        "learning_rate": 0.0668,
+        "depth": 8,
+        "l2_leaf_reg": 1.1661,
+        "bagging_temperature": 2.9667,
+        "loss_function": "RMSE",
+        "random_seed": 42,
+        "verbose": 0
+      },
+      "training_rows": 1257
+    }
+  }
+}
