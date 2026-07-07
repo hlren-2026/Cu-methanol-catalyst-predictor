@@ -13,6 +13,149 @@ from app_predictor_lite import load_metadata, load_schema, predict_batch, predic
 
 APP_TITLE = "Cu-Based Catalyst Methanol Performance Predictor"
 MODEL_DIR = Path("artifacts") / "final_app_models"
+FEATURE_SHORT_LABELS = {
+    "Al-loading(wt%)": "Al",
+    "Al2O3-loading(wt%)": "Al2O3",
+    "Ba-loading(wt%)": "Ba",
+    "CNTs-loading(wt%)": "CNTs",
+    "Ce-loading(wt%)": "Ce",
+    "CeO2-loading(wt%)": "CeO2",
+    "Cr-loading(wt%)": "Cr",
+    "Cu-loading(wt%)": "Cu",
+    "GNS(石墨烯)-loading(wt%)": "GNS",
+    "GNS(鐭冲ⅷ鐑?-loading(wt%)": "GNS",
+    "Ga-loading(wt%)": "Ga",
+    "HT（水滑石）-loading(wt%)": "HT",
+    "HT锛堟按婊戠煶锛?loading(wt%)": "HT",
+    "In-loading(wt%)": "In",
+    "K-loading(wt%)": "K",
+    "La-loading(wt%)": "La",
+    "Mg-loading(wt%)": "Mg",
+    "MgO-loading(wt%)": "MgO",
+    "Mn-loading(wt%)": "Mn",
+    "Mo-loading(wt%)": "Mo",
+    "Nd-loading(wt%)": "Nd",
+    "Ni-loading(wt%)": "Ni",
+    "Pd-loading(wt%)": "Pd",
+    "Pr-loading(wt%)": "Pr",
+    "Si-loading(wt%)": "Si",
+    "SiO2-loading(wt%)": "SiO2",
+    "TNTs-loading(wt%)": "TNTs",
+    "Ti-loading(wt%)": "Ti",
+    "TiO2-loading(wt%)": "TiO2",
+    "W-loading(wt%)": "W",
+    "Y-loading(wt%)": "Y",
+    "Zn-loading(wt%)": "Zn",
+    "ZnO-loading(wt%)": "ZnO",
+    "Zr-loading(wt%)": "Zr",
+    "ZrO2-loading(wt%)": "ZrO2",
+    "om-SiO2-loading(wt%)": "om-SiO2",
+    "Calcination Temperature": "T_cal",
+    "Calcination duration": "t_cal",
+    "drying Temperature": "T_dry",
+    "drying during": "t_dry",
+    "Activation Temperature": "T_act",
+    "Activation duration": "t_act",
+    "流速（ml/min)": "F_gas",
+    "娴侀€燂紙ml/min)": "F_gas",
+    "H2流速（ml/min)": "F_H2",
+    "H2娴侀€燂紙ml/min)": "F_H2",
+    "BET": "S_BET",
+    "Pv": "V_p",
+    "Ps": "D_p",
+    "SCu": "S_Cu",
+    "DCu": "D_Cu",
+    "Cryst.size of CuO": "d_CuO",
+    "Cryst.size of Cu": "d_Cu",
+    "Temp/K": "T",
+    "Pressure/Mpa": "P",
+    "H2/CO2": "H/C",
+    "GHSV(ml/(g*h))": "GHSV",
+}
+
+FEATURE_FORM_LABELS = {
+    "Al-loading(wt%)": "Al loading (wt%)",
+    "Al2O3-loading(wt%)": "Al2O3 loading (wt%)",
+    "Ba-loading(wt%)": "Ba loading (wt%)",
+    "CNTs-loading(wt%)": "CNTs loading (wt%)",
+    "Ce-loading(wt%)": "Ce loading (wt%)",
+    "CeO2-loading(wt%)": "CeO2 loading (wt%)",
+    "Cr-loading(wt%)": "Cr loading (wt%)",
+    "Cu-loading(wt%)": "Cu loading (wt%)",
+    "GNS(石墨烯)-loading(wt%)": "GNS loading (wt%)",
+    "GNS(鐭冲ⅷ鐑?-loading(wt%)": "GNS loading (wt%)",
+    "Ga-loading(wt%)": "Ga loading (wt%)",
+    "HT（水滑石）-loading(wt%)": "HT loading (wt%)",
+    "HT锛堟按婊戠煶锛?loading(wt%)": "HT loading (wt%)",
+    "In-loading(wt%)": "In loading (wt%)",
+    "K-loading(wt%)": "K loading (wt%)",
+    "La-loading(wt%)": "La loading (wt%)",
+    "Mg-loading(wt%)": "Mg loading (wt%)",
+    "MgO-loading(wt%)": "MgO loading (wt%)",
+    "Mn-loading(wt%)": "Mn loading (wt%)",
+    "Mo-loading(wt%)": "Mo loading (wt%)",
+    "Nd-loading(wt%)": "Nd loading (wt%)",
+    "Ni-loading(wt%)": "Ni loading (wt%)",
+    "Pd-loading(wt%)": "Pd loading (wt%)",
+    "Pr-loading(wt%)": "Pr loading (wt%)",
+    "Si-loading(wt%)": "Si loading (wt%)",
+    "SiO2-loading(wt%)": "SiO2 loading (wt%)",
+    "TNTs-loading(wt%)": "TNTs loading (wt%)",
+    "Ti-loading(wt%)": "Ti loading (wt%)",
+    "TiO2-loading(wt%)": "TiO2 loading (wt%)",
+    "W-loading(wt%)": "W loading (wt%)",
+    "Y-loading(wt%)": "Y loading (wt%)",
+    "Zn-loading(wt%)": "Zn loading (wt%)",
+    "ZnO-loading(wt%)": "ZnO loading (wt%)",
+    "Zr-loading(wt%)": "Zr loading (wt%)",
+    "ZrO2-loading(wt%)": "ZrO2 loading (wt%)",
+    "om-SiO2-loading(wt%)": "om-SiO2 loading (wt%)",
+    "Calcination Temperature": "Calcination temperature",
+    "Calcination duration": "Calcination duration",
+    "drying Temperature": "Drying temperature",
+    "drying during": "Drying duration",
+    "Activation Temperature": "Activation temperature",
+    "Activation duration": "Activation duration",
+    "流速（ml/min)": "Flow rate (mL/min)",
+    "娴侀€燂紙ml/min)": "Flow rate (mL/min)",
+    "H2流速（ml/min)": "H2 flow rate (mL/min)",
+    "H2娴侀€燂紙ml/min)": "H2 flow rate (mL/min)",
+    "BET": "BET surface area",
+    "Pv": "Pore volume",
+    "Ps": "Pore size",
+    "SCu": "Cu surface area",
+    "DCu": "Cu dispersion",
+    "Cryst.size of CuO": "Crystal size of CuO",
+    "Cryst.size of Cu": "Crystal size of Cu",
+    "Temp/K": "Reaction temperature (K)",
+    "Pressure/Mpa": "Pressure (MPa)",
+    "H2/CO2": "H2/CO2 ratio",
+    "GHSV(ml/(g*h))": "GHSV (mL/(g·h))",
+}
+
+
+def get_short_label(feature_name: str) -> str:
+    if feature_name in FEATURE_SHORT_LABELS:
+        return FEATURE_SHORT_LABELS[feature_name]
+    return feature_name
+
+
+def get_form_label(feature_name: str) -> str:
+    if feature_name in FEATURE_FORM_LABELS:
+        return FEATURE_FORM_LABELS[feature_name]
+    return feature_name
+
+
+def build_display_schema_table(schema: dict[str, Any]) -> pd.DataFrame:
+    loading_cols = set(schema["loading_cols"])
+    return pd.DataFrame(
+        {
+            "Display name": [get_form_label(col) for col in schema["feature_cols"]],
+            "Short label": [get_short_label(col) for col in schema["feature_cols"]],
+            "Internal column name": schema["feature_cols"],
+            "Type": ["Loading" if col in loading_cols else "Process / characterization" for col in schema["feature_cols"]],
+        }
+    )
 
 
 def build_template_dataframe(schema: dict[str, Any]) -> pd.DataFrame:
@@ -72,7 +215,7 @@ def render_home_page(schema: dict[str, Any], metadata: dict[str, Any]) -> None:
 
     st.subheader("Input Feature Schema")
     st.write(f"Total feature columns: **{len(schema['feature_cols'])}**")
-    st.dataframe(pd.DataFrame({"Feature Column": schema["feature_cols"]}), use_container_width=True, height=420)
+    st.dataframe(build_display_schema_table(schema), use_container_width=True, height=420)
 
     st.info(
         "Missing-value policy: all loading(wt%) columns are automatically filled with 0; "
@@ -115,6 +258,10 @@ def render_batch_page(schema: dict[str, Any]) -> None:
     if missing_non_loading:
         st.error(f"Missing required non-loading columns: {missing_non_loading}")
         return
+
+    with st.expander("Input field mapping for uploaded files"):
+        st.write("Uploaded spreadsheets must use the internal training column names shown below.")
+        st.dataframe(build_display_schema_table(schema), use_container_width=True, height=360)
 
     if st.button("Run Batch Prediction", type="primary"):
         try:
@@ -162,9 +309,9 @@ def render_single_page(schema: dict[str, Any], metadata: dict[str, Any]) -> None
             default_value = 0.0 if feature in schema["loading_cols"] else None
             with target_col:
                 form_values[feature] = st.text_input(
-                    feature,
+                    get_form_label(feature),
                     value="" if default_value is None else str(default_value),
-                    help="Loading columns default to 0; other fields may be left blank if unknown.",
+                    help=f"Internal column: {feature}. Loading columns default to 0; other fields may be left blank if unknown.",
                 )
 
         submitted = st.form_submit_button("Run Single Prediction", type="primary")
@@ -203,6 +350,7 @@ def render_single_page(schema: dict[str, Any], metadata: dict[str, Any]) -> None
 
     st.subheader("Prepared Input Summary")
     prepared_df = pd.DataFrame([prediction["prepared_features"]])
+    prepared_df = prepared_df.rename(columns={col: get_form_label(col) for col in prepared_df.columns})
     st.dataframe(prepared_df, use_container_width=True)
 
     st.subheader("Single-Sample Feature Impact (SHAP)")
@@ -211,6 +359,7 @@ def render_single_page(schema: dict[str, Any], metadata: dict[str, Any]) -> None
     for target_name in ["Conversion/%", "CH3OH Selectivity/%"]:
         explanation = prediction["explanations"][target_name]
         shap_df = pd.DataFrame(explanation["top_contributions"]).copy()
+        shap_df["display_feature"] = shap_df["feature"].map(get_short_label)
         shap_df = shap_df.sort_values("shap_value", ascending=True)
 
         st.markdown(f"**{target_name}**")
@@ -225,14 +374,15 @@ def render_single_page(schema: dict[str, Any], metadata: dict[str, Any]) -> None
             .mark_bar()
             .encode(
                 x=alt.X("shap_value:Q", title="SHAP value"),
-                y=alt.Y("feature:N", sort=None, title="Feature"),
+                y=alt.Y("display_feature:N", sort=None, title="Feature"),
                 color=alt.Color(
                     "direction:N",
                     scale=alt.Scale(domain=["Positive", "Negative"], range=["#d62728", "#1f77b4"]),
                     legend=alt.Legend(title="Impact"),
                 ),
                 tooltip=[
-                    alt.Tooltip("feature:N", title="Feature"),
+                    alt.Tooltip("display_feature:N", title="Feature"),
+                    alt.Tooltip("feature:N", title="Internal column"),
                     alt.Tooltip("feature_value:Q", title="Feature value"),
                     alt.Tooltip("shap_value:Q", title="SHAP value", format=".4f"),
                 ],
@@ -241,7 +391,9 @@ def render_single_page(schema: dict[str, Any], metadata: dict[str, Any]) -> None
         )
         st.altair_chart(chart, use_container_width=True)
         st.dataframe(
-            shap_df[["feature", "feature_value", "shap_value", "abs_shap_value", "direction"]],
+            shap_df[["display_feature", "feature", "feature_value", "shap_value", "abs_shap_value", "direction"]].rename(
+                columns={"display_feature": "Feature", "feature": "Internal column"}
+            ),
             use_container_width=True,
             hide_index=True,
         )
