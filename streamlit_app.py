@@ -152,7 +152,6 @@ def build_display_schema_table(schema: dict[str, Any]) -> pd.DataFrame:
         {
             "Display name": [get_form_label(col) for col in schema["feature_cols"]],
             "Short label": [get_short_label(col) for col in schema["feature_cols"]],
-            "Internal column name": schema["feature_cols"],
             "Type": ["Loading" if col in loading_cols else "Process / characterization" for col in schema["feature_cols"]],
         }
     )
@@ -311,7 +310,7 @@ def render_single_page(schema: dict[str, Any], metadata: dict[str, Any]) -> None
                 form_values[feature] = st.text_input(
                     get_form_label(feature),
                     value="" if default_value is None else str(default_value),
-                    help=f"Internal column: {feature}. Loading columns default to 0; other fields may be left blank if unknown.",
+                    help="Loading columns default to 0; other fields may be left blank if unknown."
                 )
 
         submitted = st.form_submit_button("Run Single Prediction", type="primary")
