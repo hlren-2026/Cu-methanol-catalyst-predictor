@@ -5,3 +5,4 @@ xgboost
 catboost
 numpy
 shap
+altair
